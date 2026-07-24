@@ -64,6 +64,24 @@ function MessageIcon(props: IconProps) {
   );
 }
 
+// Iconos para el footer
+function FacebookIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
+
+function XIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
+      <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
+      <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+    </svg>
+  );
+}
+
 /* ---------- TODOS LOS SERVICIOS DEL CATÁLOGO ---------- */
 const serviciosDisponibles = [
   { id: 'threading', nombre: 'Depilación con hilo', icon: '🧵' },
@@ -550,6 +568,7 @@ export default function Reserva() {
         </div>
       </section>
 
+      {/* ===== FOOTER ===== */}
       <footer className={styles.footer}>
         <div className={styles.footerTop}>
           <Image 
@@ -565,11 +584,11 @@ export default function Reserva() {
             <div className={styles.footerCol}>
               <h4>Enlaces</h4>
               <ul>
-                <li><Link href="/">Inicio</Link></li>
-                <li><Link href="/#nosotros">Quién soy</Link></li>
-                <li><Link href="/#servicios">Servicios</Link></li>
+                <li><Link href="#nosotros">Quién soy</Link></li>
+                <li><Link href="#servicios">Servicios</Link></li>
                 <li><Link href="/precios">Precios</Link></li>
-                <li><Link href="/#contacto">Contacto</Link></li>
+                <li><Link href="#testimonios">Opiniones</Link></li>
+                <li><Link href="#contacto">Contacto</Link></li>
               </ul>
             </div>
             <div className={styles.footerCol}>
@@ -583,12 +602,27 @@ export default function Reserva() {
             </div>
           </div>
           <div className={styles.footerSocial}>
-            <a href="https://www.facebook.com/hindhu.depilacion.con.hilo/about" aria-label="Facebook">📘</a>
-            <a href="https://x.com/IndiaBelleza" aria-label="X">🐦</a>
+            <a href="https://www.facebook.com/hindhu.depilacion.con.hilo/about" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+              <FacebookIcon />
+            </a>
+            <a href="https://x.com/IndiaBelleza" aria-label="X" target="_blank" rel="noopener noreferrer">
+              <XIcon />
+            </a>
           </div>
         </div>
         <div className={styles.footerBottom}>
-          © {new Date().getFullYear()} Belleza India · Todos los derechos reservados
+          <p>© {new Date().getFullYear()} Belleza India · Todos los derechos reservados</p>
+          <p className={styles.footerCredit}>
+            Diseño y desarrollo por{' '}
+            <a 
+              href="https://ayoub-gamma.vercel.app/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className={styles.footerCreditLink}
+            >
+              Ayoub Ben Said
+            </a>
+          </p>
         </div>
       </footer>
     </>

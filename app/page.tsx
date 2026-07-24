@@ -8,8 +8,7 @@ import { useState, useEffect } from 'react';
 import { useUser, SignInButton, SignOutButton } from '@clerk/nextjs';
 import styles from './page.module.css';
 
-/* ---------- Iconos SVG de línea ---------- */
-
+/* ---------- Iconos SVG ---------- */
 type IconProps = SVGProps<SVGSVGElement>;
 
 function ThreadingIcon(props: IconProps) {
@@ -131,7 +130,6 @@ function AdminIcon(props: IconProps) {
 }
 
 /* ---------- Mandala ---------- */
-
 function Mandala(props: IconProps) {
   const petalos = Array.from({ length: 12 }, (_, i) => i * 30);
   return (
@@ -150,7 +148,6 @@ function Mandala(props: IconProps) {
 }
 
 /* ---------- Datos ---------- */
-
 const servicios = [
   { icon: ThreadingIcon, nombre: 'Depilación con hilo', desde: '5 €', desc: 'Técnica tradicional india para cejas, labios y rostro completo, sin irritación.' },
   { icon: WaxIcon, nombre: 'Depilación con cera', desde: '8 €', desc: 'Piernas, brazos, espalda e ingles, con un acabado suave y duradero.' },
@@ -188,7 +185,7 @@ const pasos = [
 
 const marqueeItems = ['Threading', 'Henna', 'Manicura', 'Masajes', 'Limpieza facial', 'Pestañas', 'Cera'];
 
-// --- TESTIMONIOS INICIALES (GOOGLE MAPS - SIEMPRE VISIBLES) ---
+// --- TESTIMONIOS INICIALES (Google Maps) ---
 const testimoniosIniciales = [
   { 
     texto: 'Muy buena experiencia ya que no suelo hacerme nada y la manicura pedicura perfecta y se veía muy profesional la chica joven que me lo hizo, detalladamente y cuidadosa. Los productos se notan de calidad y duraderos. La limpieza y masaje facial y craneal de maravilla, me pusieron una manta encima durante el tratamiento para estar más cómoda. Un detalle muy bueno ❤️ Solo aconsejaría que explicaran en español y se comuniquen más con el cliente, es importante cuando se trata de tu cuerpo saber el proceso bien.',
@@ -212,32 +209,26 @@ const testimoniosIniciales = [
 
 export default function Home() {
   const { isSignedIn, user } = useUser();
+  const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // --- TESTIMONIOS: INICIALIZAR CON LOS DE GOOGLE MAPS ---
+  // --- TESTIMONIOS ---
   const [testimonios, setTestimonios] = useState(testimoniosIniciales);
   const [loading, setLoading] = useState(false);
 
   const cargarTestimonios = async () => {
-    console.log('🔍 [CLIENTE] Cargando testimonios desde API...');
     setLoading(true);
     try {
       const res = await fetch('/api/testimonios');
-      console.log('🔍 [CLIENTE] Status:', res.status);
       if (res.ok) {
         const data = await res.json();
-        console.log('✅ [CLIENTE] Testimonios de API:', data.length);
         if (data && data.length > 0) {
           setTestimonios(data);
-        } else {
-          console.log('ℹ️ [CLIENTE] API vacía, manteniendo testimonios iniciales');
         }
-      } else {
-        console.error('❌ [CLIENTE] Error al cargar:', await res.text());
       }
     } catch (error) {
-      console.error('❌ [CLIENTE] Error:', error);
+      console.error('Error al cargar testimonios:', error);
     } finally {
       setLoading(false);
     }
@@ -272,8 +263,6 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    console.log('🔍 [CLIENTE] Enviando testimonio...');
-    
     if (!formData.nombre.trim() || !formData.comentario.trim() || formData.estrellas === 0) {
       setSubmitStatus('error');
       setTimeout(() => setSubmitStatus('idle'), 3000);
@@ -291,23 +280,17 @@ export default function Home() {
         }),
       });
 
-      console.log('📥 [CLIENTE] Status:', res.status);
-      const data = await res.json();
-      console.log('📄 [CLIENTE] Respuesta:', data);
-
       if (res.ok) {
-        console.log('✅ [CLIENTE] Testimonio guardado correctamente (pendiente de aprobación)');
         setSubmitStatus('success');
         setFormData({ nombre: '', comentario: '', estrellas: 5 });
         setCharCount(0);
         await cargarTestimonios();
       } else {
-        console.error('❌ [CLIENTE] Error:', data);
         setSubmitStatus('error');
       }
       setTimeout(() => setSubmitStatus('idle'), 3000);
     } catch (error) {
-      console.error('❌ [CLIENTE] Error de red:', error);
+      console.error('Error:', error);
       setSubmitStatus('error');
       setTimeout(() => setSubmitStatus('idle'), 3000);
     }
@@ -329,6 +312,7 @@ export default function Home() {
             style={{ objectFit: 'contain', maxWidth: '220px', maxHeight: '100px', width: 'auto', height: 'auto' }} 
           />
         </Link>
+
         <nav className={styles.nav}>
           <div className={styles.navLinks}>
             <Link href="#nosotros">Quién soy</Link>
@@ -337,6 +321,7 @@ export default function Home() {
             <Link href="#testimonios">Opiniones</Link>
             <Link href="#contacto">Contacto</Link>
           </div>
+
           <div className={styles.navActions}>
             <Link href="/reserva" className={styles.navCta}>Reservar cita</Link>
             
@@ -384,8 +369,62 @@ export default function Home() {
               </div>
             )}
           </div>
+
+          {/* Botón Hamburguesa */}
+          <button 
+            className={`${styles.hamburger} ${menuOpen ? styles.active : ''}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menú"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </nav>
       </header>
+
+      {/* Overlay del menú móvil */}
+      <div 
+        className={`${styles.mobileOverlay} ${menuOpen ? styles.open : ''}`}
+        onClick={() => setMenuOpen(false)}
+      />
+
+      {/* Menú móvil */}
+      <div className={`${styles.mobileMenu} ${menuOpen ? styles.open : ''}`}>
+        <Link href="#nosotros" onClick={() => setMenuOpen(false)}>Quién soy</Link>
+        <Link href="#servicios" onClick={() => setMenuOpen(false)}>Servicios</Link>
+        <Link href="#proceso" onClick={() => setMenuOpen(false)}>Cómo funciona</Link>
+        <Link href="#testimonios" onClick={() => setMenuOpen(false)}>Opiniones</Link>
+        <Link href="#contacto" onClick={() => setMenuOpen(false)}>Contacto</Link>
+        
+        {isSignedIn ? (
+          <>
+            <div className={styles.mobileUser}>
+              <img src={user?.imageUrl} alt="Avatar" className={styles.mobileAvatar} />
+              <span className={styles.mobileUserName}>{user?.firstName}</span>
+            </div>
+            <Link href="/admin" className={styles.mobileCta} onClick={() => setMenuOpen(false)}>
+              📊 Panel Admin
+            </Link>
+            <SignOutButton>
+              <button className={styles.mobileLogout} onClick={() => setMenuOpen(false)}>
+                🚪 Cerrar sesión
+              </button>
+            </SignOutButton>
+          </>
+        ) : (
+          <>
+            <Link href="/reserva" className={styles.mobileCta} onClick={() => setMenuOpen(false)}>
+              📅 Reservar cita
+            </Link>
+            <SignInButton mode="modal">
+              <button className={styles.mobileAdmin} onClick={() => setMenuOpen(false)}>
+                🔐 Admin
+              </button>
+            </SignInButton>
+          </>
+        )}
+      </div>
 
       {/* ===== HERO ===== */}
       <section className={styles.hero}>
@@ -501,29 +540,26 @@ export default function Home() {
       </section>
 
       {/* ===== CÓMO FUNCIONA ===== */}
-<section id="proceso" className={`${styles.section} ${styles.sectionDark}`}>
-  <div className={styles.sectionHead}>
-    <p className={styles.sectionEyebrow}>Cómo funciona</p>
-    <h2 className={styles.sectionTitle}>Tu experiencia paso a paso</h2>
-    <p className={styles.sectionText}>
-      Te guiamos en cada etapa para que disfrutes de una experiencia única y personalizada.
-    </p>
-  </div>
-  <div className={styles.timeline}>
-    {pasos.map(({ titulo, desc }, i) => (
-      <div className={styles.timelineStep} key={titulo}>
-        <div className={styles.timelineNumber}>0{i + 1}</div>
-        <h3 className={styles.timelineTitle}>{titulo}</h3>
-        <p className={styles.sectionText}>{desc}</p>
-      </div>
-    ))}
-  </div>
-  <div className={styles.viewAllWrap}>
-    <Link href="/como-funciona" className={styles.btnPrimary} style={{ color: 'var(--parchment)' }}>
-      Conocer más →
-    </Link>
-  </div>
-</section>
+      <section id="proceso" className={`${styles.section} ${styles.sectionDark}`}>
+        <div className={styles.sectionHead}>
+          <p className={styles.sectionEyebrow}>Cómo funciona</p>
+          <h2 className={styles.sectionTitle}>Cada tratamiento, paso a paso</h2>
+        </div>
+        <div className={styles.timeline}>
+          {pasos.map(({ titulo, desc }, i) => (
+            <div className={styles.timelineStep} key={titulo}>
+              <div className={styles.timelineNumber}>0{i + 1}</div>
+              <h3 className={styles.timelineTitle}>{titulo}</h3>
+              <p className={styles.sectionText}>{desc}</p>
+            </div>
+          ))}
+        </div>
+        <div className={styles.viewAllWrap}>
+          <Link href="/como-funciona" className={styles.btnPrimary} style={{ color: 'var(--parchment)' }}>
+            Conocer más →
+          </Link>
+        </div>
+      </section>
 
       {/* ===== TESTIMONIOS ===== */}
       <section id="testimonios" className={styles.section}>
@@ -686,47 +722,65 @@ export default function Home() {
       </section>
 
       {/* ===== FOOTER ===== */}
-      <footer className={styles.footer}>
-        <div className={styles.footerTop}>
-          <Image 
-            src="/logo2.ico" 
-            alt="Belleza India" 
-            width={500}
-            height={500}
-            unoptimized={true}
-            className={styles.footerLogoImg}
-            style={{ objectFit: 'contain', maxWidth: '180px', maxHeight: '80px', width: 'auto', height: 'auto' }}
-          />
-          <div className={styles.footerLinks}>
-            <div className={styles.footerCol}>
-              <h4>Enlaces</h4>
-              <ul>
-                <li><Link href="#nosotros">Quién soy</Link></li>
-                <li><Link href="#servicios">Servicios</Link></li>
-                <li><Link href="/precios">Precios</Link></li>
-                <li><Link href="#testimonios">Opiniones</Link></li>
-                <li><Link href="#contacto">Contacto</Link></li>
-              </ul>
-            </div>
-            <div className={styles.footerCol}>
-              <h4>Servicios</h4>
-              <ul>
-                <li>Depilación con hilo</li>
-                <li>Henna</li>
-                <li>Manicura</li>
-                <li>Masajes</li>
-              </ul>
-            </div>
-          </div>
-          <div className={styles.footerSocial}>
-            <a href="https://www.facebook.com/hindhu.depilacion.con.hilo/about" aria-label="Facebook"><FacebookIcon /></a>
-            <a href="https://x.com/IndiaBelleza" aria-label="X"><XIcon /></a>
-          </div>
-        </div>
-        <div className={styles.footerBottom}>
-          © {new Date().getFullYear()} Belleza India · Todos los derechos reservados
-        </div>
-      </footer>
+<footer className={styles.footer}>
+  <div className={styles.footerTop}>
+    <Image 
+      src="/logo2.ico" 
+      alt="Belleza India" 
+      width={500}
+      height={500}
+      unoptimized={true}
+      className={styles.footerLogoImg}
+      style={{ objectFit: 'contain', maxWidth: '180px', maxHeight: '80px', width: 'auto', height: 'auto' }}
+    />
+
+    <div className={styles.footerLinks}>
+      <div className={styles.footerCol}>
+        <h4>Enlaces</h4>
+        <ul>
+          <li><Link href="#nosotros">Quién soy</Link></li>
+          <li><Link href="#servicios">Servicios</Link></li>
+          <li><Link href="/precios">Precios</Link></li>
+          <li><Link href="#testimonios">Opiniones</Link></li>
+          <li><Link href="#contacto">Contacto</Link></li>
+        </ul>
+      </div>
+      <div className={styles.footerCol}>
+        <h4>Servicios</h4>
+        <ul>
+          <li>Depilación con hilo</li>
+          <li>Henna</li>
+          <li>Manicura</li>
+          <li>Masajes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div className={styles.footerSocial}>
+      <a href="https://www.facebook.com/hindhu.depilacion.con.hilo/about" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+        <FacebookIcon />
+      </a>
+      <a href="https://x.com/IndiaBelleza" aria-label="X" target="_blank" rel="noopener noreferrer">
+        <XIcon />
+      </a>
+    </div>
+  </div>
+
+  <div className={styles.footerBottom}>
+    <p>© {new Date().getFullYear()} Belleza India · Todos los derechos reservados</p>
+    <p className={styles.footerCredit}>
+      Diseño y desarrollo por{' '}
+      <a 
+        href="https://ayoub-gamma.vercel.app/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className={styles.footerCreditLink}
+      >
+        Ayoub Ben Said
+      </a>
+    </p>
+  </div>
+</footer>
     </>
   );
 }
