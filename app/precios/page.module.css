@@ -1,19 +1,5 @@
 /* app/precios/page.module.css */
 
-/* ===== Variables de diseño ===== */
-:root {
-  --ink: #1a120f;
-  --ink-soft: #3d2e28;
-  --gold: #c89b3c;
-  --gold-light: #e8c878;
-  --magenta: #a81657;
-  --magenta-bright: #d41f6e;
-  --emerald: #2d7d6b;
-  --emerald-deep: #1a4d42;
-  --parchment: #f2e6cf;
-  --text-on-ink: #f5eee7;
-  --text-on-ink-soft: #c9bdb2;
-}
 
 /* ===== Header ===== */
 .header {
