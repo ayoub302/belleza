@@ -1,0 +1,41 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Testimonio {
+  id         Int      @id @default(autoincrement())
+  nombre     String
+  comentario String   @db.Text
+  estrellas  Int
+  fecha      DateTime @default(now())
+  aprobado   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("testimonios")
+}
+
+model Reserva {
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  telefono    String
+  email       String?
+  servicio    String
+  zona        String?
+  fecha       DateTime
+  hora        String   // formato "HH:MM"
+  comentarios String?
+  estado      String   @default("pendiente") // pendiente | confirmada | completada | cancelada
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([fecha])
+  @@index([estado])
+  @@map("reservas")
+}

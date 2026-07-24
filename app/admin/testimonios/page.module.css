@@ -1,0 +1,125 @@
+/* app/admin/testimonios/page.module.css */
+.container {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  font-family: 'Georgia', serif;
+  color: #1a120f;
+}
+
+.badge {
+  background: #a81657;
+  color: white;
+  padding: 4px 16px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.section h2 {
+  font-size: 1.1rem;
+  font-family: 'Georgia', serif;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.testimonioCard {
+  background: #faf5ed;
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  border-left: 4px solid #c89b3c;
+}
+
+.testimonioHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.testimonioHeader strong {
+  font-size: 1rem;
+  color: #1a120f;
+}
+
+.estrellas {
+  color: #c89b3c;
+  margin-left: 8px;
+  font-size: 0.9rem;
+}
+
+.fecha {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.comentario {
+  color: #3d2e28;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 4px 0 12px 0;
+}
+
+.acciones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btnAprobar {
+  padding: 6px 16px;
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.btnAprobar:hover { background: #27ae60; }
+
+.btnDesaprobar {
+  padding: 6px 16px;
+  background: #f39c12;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.btnDesaprobar:hover { background: #d68910; }
+
+.btnEliminar {
+  padding: 6px 16px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.btnEliminar:hover { background: #c0392b; }

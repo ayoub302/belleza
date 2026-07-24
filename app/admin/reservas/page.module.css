@@ -1,0 +1,189 @@
+/* app/admin/reservas/page.module.css */
+.container {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  font-family: 'Georgia', serif;
+  color: #1a120f;
+}
+
+.filtros {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filtroBtn {
+  padding: 6px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.filtroBtn:hover {
+  border-color: #c89b3c;
+}
+
+.filtroBtn.active {
+  background: #c89b3c;
+  color: white;
+  border-color: #c89b3c;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.9rem;
+}
+
+.table th {
+  text-align: left;
+  padding: 12px 12px;
+  background: #f6eedd;
+  font-weight: 600;
+  color: #3d2e28;
+  border-bottom: 2px solid #c89b3c;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 12px 12px;
+  border-bottom: 1px solid #eee;
+  color: #1a120f;
+  vertical-align: middle;
+}
+
+.table tr:hover td {
+  background: #faf5ed;
+}
+
+.contactInfo {
+  color: #999;
+  font-size: 0.75rem;
+}
+
+.estadoBadge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.estadoEliminado {
+  color: #999;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.acciones {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.btnConfirmar {
+  padding: 4px 12px;
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  transition: background 0.2s ease;
+}
+
+.btnConfirmar:hover {
+  background: #27ae60;
+}
+
+.btnCompletar {
+  padding: 4px 12px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  transition: background 0.2s ease;
+}
+
+.btnCompletar:hover {
+  background: #2980b9;
+}
+
+.btnCancelar {
+  padding: 4px 12px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  transition: background 0.2s ease;
+}
+
+.btnCancelar:hover {
+  background: #c0392b;
+}
+
+.btnEliminar {
+  padding: 4px 8px;
+  background: #999;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  transition: background 0.2s ease;
+}
+
+.btnEliminar:hover {
+  background: #666;
+}
+
+.empty, .loading {
+  text-align: center;
+  padding: 40px !important;
+  color: #999;
+}
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .table th, .table td {
+    padding: 8px 6px;
+    font-size: 0.8rem;
+  }
+}

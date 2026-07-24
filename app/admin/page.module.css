@@ -1,0 +1,141 @@
+/* app/admin/page.module.css */
+.dashboard {
+  padding: 20px 0;
+}
+
+.headerSection {
+  margin-bottom: 32px;
+}
+
+.headerSection h1 {
+  font-size: 2rem;
+  font-family: 'Georgia', serif;
+  color: #1a120f;
+  margin-bottom: 4px;
+}
+
+.headerSection p {
+  color: #3d2e28;
+  font-size: 1rem;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.statCard {
+  background: white;
+  padding: 24px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid #c89b3c;
+}
+
+.statNumber {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #a81657;
+  font-family: 'Georgia', serif;
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  color: #3d2e28;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.recentSection {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.recentSection h2 {
+  font-size: 1.3rem;
+  font-family: 'Georgia', serif;
+  margin-bottom: 16px;
+  color: #1a120f;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.9rem;
+}
+
+.table th {
+  text-align: left;
+  padding: 12px 12px;
+  background: #f6eedd;
+  font-weight: 600;
+  color: #3d2e28;
+  border-bottom: 2px solid #c89b3c;
+}
+
+.table td {
+  padding: 12px 12px;
+  border-bottom: 1px solid #eee;
+  color: #1a120f;
+}
+
+.table tr:hover td {
+  background: #faf5ed;
+}
+
+.estadoBadge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: white;
+}
+
+.estadoBadge.pendiente {
+  background: #f39c12;
+}
+
+.estadoBadge.confirmada {
+  background: #2ecc71;
+}
+
+.estadoBadge.completada {
+  background: #3498db;
+}
+
+.estadoBadge.cancelada {
+  background: #e74c3c;
+}
+
+.empty {
+  text-align: center;
+  padding: 40px !important;
+  color: #999;
+}
+
+@media (max-width: 640px) {
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .statNumber {
+    font-size: 1.8rem;
+  }
+}
