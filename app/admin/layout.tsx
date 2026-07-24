@@ -11,7 +11,6 @@ import styles from "./layout.module.css";
 function AdminLayoutContent({ children, role }: { children: React.ReactNode; role: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Cerrar menú al cambiar de ruta
   useEffect(() => {
     setMenuOpen(false);
   }, []);
@@ -25,7 +24,6 @@ function AdminLayoutContent({ children, role }: { children: React.ReactNode; rol
             <span>Panel Admin</span>
           </Link>
 
-          {/* Navegación desktop */}
           <nav className={styles.headerNav}>
             <Link href="/admin">📊 Dashboard</Link>
             <Link href="/admin/reservas">📋 Reservas</Link>
@@ -37,7 +35,7 @@ function AdminLayoutContent({ children, role }: { children: React.ReactNode; rol
             <UserButton afterSignOutUrl="/" />
           </div>
 
-          {/* Botón Hamburguesa - SOLO visible en móvil */}
+          {/* HAMBURGUESA */}
           <button 
             className={`${styles.hamburger} ${menuOpen ? styles.active : ''}`}
             onClick={() => setMenuOpen(!menuOpen)}
@@ -49,7 +47,7 @@ function AdminLayoutContent({ children, role }: { children: React.ReactNode; rol
           </button>
         </div>
 
-        {/* Overlay (fondo oscuro) */}
+        {/* Overlay */}
         <div 
           className={`${styles.mobileOverlay} ${menuOpen ? styles.open : ''}`}
           onClick={() => setMenuOpen(false)}
@@ -73,7 +71,7 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isLoaded, userId, sessionClaims } = useAuth();
+  const { isLoaded, userId, session } = useAuth();
 
   if (!isLoaded) {
     return <div className={styles.loading}>Cargando...</div>;
@@ -83,7 +81,8 @@ export default function AdminLayout({
     redirect("/sign-in");
   }
 
-  const role = (sessionClaims?.metadata as any)?.role as string;
+  // Obtener el rol de los metadatos de la sesión
+  const role = (session?.user?.publicMetadata as any)?.role as string || '';
 
   if (role !== "admin") {
     return (
