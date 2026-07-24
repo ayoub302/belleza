@@ -1,6 +1,7 @@
 // app/admin/layout.tsx
 'use client';
 
+import { useUser } from "@clerk/nextjs";
 import { useAuth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -71,9 +72,10 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isLoaded, userId, session } = useAuth();
+  const { isLoaded: isAuthLoaded, userId } = useAuth();
+  const { isLoaded: isUserLoaded, user } = useUser();
 
-  if (!isLoaded) {
+  if (!isAuthLoaded || !isUserLoaded) {
     return <div className={styles.loading}>Cargando...</div>;
   }
 
@@ -81,8 +83,8 @@ export default function AdminLayout({
     redirect("/sign-in");
   }
 
-  // Obtener el rol de los metadatos de la sesión
-  const role = (session?.user?.publicMetadata as any)?.role as string || '';
+  // Obtener el rol de los metadatos públicos del usuario
+  const role = (user?.publicMetadata as any)?.role as string || '';
 
   if (role !== "admin") {
     return (
