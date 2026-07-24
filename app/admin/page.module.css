@@ -131,11 +131,90 @@
   color: #999;
 }
 
-@media (max-width: 640px) {
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 12px 0;
+  }
+  
+  .headerSection h1 {
+    font-size: 1.5rem;
+  }
+  
+  .headerSection p {
+    font-size: 0.9rem;
+  }
+  
   .statsGrid {
     grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
   }
+  
+  .statCard {
+    padding: 16px 14px;
+  }
+  
   .statNumber {
     font-size: 1.8rem;
+  }
+  
+  .statLabel {
+    font-size: 0.7rem;
+  }
+  
+  .recentSection {
+    padding: 16px;
+  }
+  
+  .recentSection h2 {
+    font-size: 1.1rem;
+  }
+  
+  .table {
+    font-size: 0.75rem;
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px 6px;
+  }
+  
+  .estadoBadge {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  
+  .statCard {
+    padding: 12px 10px;
+  }
+  
+  .statNumber {
+    font-size: 1.4rem;
+  }
+  
+  .statLabel {
+    font-size: 0.65rem;
+  }
+  
+  .table {
+    font-size: 0.65rem;
+  }
+  
+  .table th,
+  .table td {
+    padding: 6px 4px;
+  }
+  
+  .empty {
+    padding: 20px !important;
+    font-size: 0.8rem;
   }
 }

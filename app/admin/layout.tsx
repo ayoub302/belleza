@@ -1,52 +1,20 @@
 // app/admin/layout.tsx
-import { auth } from "@clerk/nextjs/server";
+'use client';
+
+import { useAuth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
+import { useState, useEffect } from "react";
 import styles from "./layout.module.css";
 
-export default async function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { userId, sessionClaims } = await auth();
+function AdminLayoutContent({ children, role }: { children: React.ReactNode; role: string }) {
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // Si no está autenticado, redirigir al login
-  if (!userId) {
-    redirect("/sign-in");
-  }
-
-  // Obtener el rol de los metadatos públicos
-  const role = (sessionClaims?.metadata as { role?: string } | undefined)?.role;
-
-  // Verificar si tiene el rol de administrador
-  if (role !== "admin") {
-    return (
-      <div style={{ 
-        display: "flex", 
-        flexDirection: "column", 
-        alignItems: "center", 
-        justifyContent: "center", 
-        minHeight: "100vh",
-        background: "#f6eedd",
-        padding: "20px",
-        textAlign: "center"
-      }}>
-        <h1 style={{ fontSize: "2rem", color: "#1a120f" }}>⛔ Acceso denegado</h1>
-        <p style={{ color: "#3d2e28", marginBottom: "20px" }}>
-          No tienes permisos de administrador para acceder a esta página.
-        </p>
-        <a href="/" style={{ 
-          color: "#a81657", 
-          textDecoration: "underline",
-          fontWeight: "500"
-        }}>
-          Volver a la tienda
-        </a>
-      </div>
-    );
-  }
+  // Cerrar menú al cambiar de ruta
+  useEffect(() => {
+    setMenuOpen(false);
+  }, []);
 
   return (
     <div className={styles.adminLayout}>
@@ -56,17 +24,76 @@ export default async function AdminLayout({
             <span>🪷</span>
             <span>Panel Admin</span>
           </Link>
-          <div className={styles.headerNav}>
+
+          {/* Navegación desktop */}
+          <nav className={styles.headerNav}>
+            <Link href="/admin">📊 Dashboard</Link>
             <Link href="/admin/reservas">📋 Reservas</Link>
             <Link href="/admin/testimonios">💬 Testimonios</Link>
-          </div>
+          </nav>
+
           <div className={styles.userSection}>
             <span className={styles.roleBadge}>👑 {role}</span>
             <UserButton afterSignOutUrl="/" />
           </div>
+
+          {/* Botón Hamburguesa - SOLO visible en móvil */}
+          <button 
+            className={`${styles.hamburger} ${menuOpen ? styles.active : ''}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menú"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+
+        {/* Overlay (fondo oscuro) */}
+        <div 
+          className={`${styles.mobileOverlay} ${menuOpen ? styles.open : ''}`}
+          onClick={() => setMenuOpen(false)}
+        />
+
+        {/* Menú móvil */}
+        <div className={`${styles.mobileMenu} ${menuOpen ? styles.open : ''}`}>
+          <Link href="/admin" onClick={() => setMenuOpen(false)}>📊 Dashboard</Link>
+          <Link href="/admin/reservas" onClick={() => setMenuOpen(false)}>📋 Reservas</Link>
+          <Link href="/admin/testimonios" onClick={() => setMenuOpen(false)}>💬 Testimonios</Link>
+          <Link href="/" onClick={() => setMenuOpen(false)}>🏠 Volver a la tienda</Link>
         </div>
       </header>
       <main className={styles.adminMain}>{children}</main>
     </div>
   );
+}
+
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { isLoaded, userId, sessionClaims } = useAuth();
+
+  if (!isLoaded) {
+    return <div className={styles.loading}>Cargando...</div>;
+  }
+
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
+  const role = (sessionClaims?.metadata as any)?.role as string;
+
+  if (role !== "admin") {
+    return (
+      <div className={styles.accesoDenegado}>
+        <h1>⛔ Acceso denegado</h1>
+        <p>No tienes permisos de administrador.</p>
+        <Link href="/">Volver a la tienda</Link>
+      </div>
+    );
+  }
+
+  return <AdminLayoutContent role={role}>{children}</AdminLayoutContent>;
 }

@@ -20,6 +20,7 @@
   align-items: center;
   justify-content: space-between;
   height: 64px;
+  gap: 20px;
 }
 
 .logo {
@@ -31,6 +32,7 @@
   color: #f2e6cf;
   text-decoration: none;
   font-family: 'Georgia', serif;
+  flex-shrink: 0;
 }
 
 .logo span:first-child {
@@ -40,6 +42,7 @@
 .headerNav {
   display: flex;
   gap: 24px;
+  align-items: center;
 }
 
 .headerNav a {
@@ -61,6 +64,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .roleBadge {
@@ -80,8 +84,151 @@
   padding: 32px 24px;
 }
 
+.accesoDenegado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #f6eedd;
+  padding: 20px;
+  text-align: center;
+}
+
+.accesoDenegado h1 {
+  font-size: 2rem;
+  color: #1a120f;
+  font-family: 'Georgia', serif;
+}
+
+.accesoDenegado p {
+  color: #3d2e28;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.accesoDenegado a {
+  color: #a81657;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #f6eedd;
+  font-size: 1.2rem;
+  color: #3d2e28;
+}
+
+/* ===== HAMBURGUESA ===== */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 60;
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background: #e8c878;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ===== MOBILE OVERLAY ===== */
+.mobileOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 54;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobileOverlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ===== MENÚ MÓVIL ===== */
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 80%;
+  max-width: 300px;
+  height: 100vh;
+  background: rgba(26, 18, 15, 0.98);
+  backdrop-filter: blur(12px);
+  padding: 80px 24px 24px;
+  transition: right 0.3s ease;
+  z-index: 55;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.mobileMenu.open {
+  right: 0;
+}
+
+.mobileMenu a {
+  color: #c9bdb2;
+  text-decoration: none;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1rem;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(200, 155, 60, 0.1);
+  transition: color 0.2s ease;
+}
+
+.mobileMenu a:hover {
+  color: #e8c878;
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .headerNav {
     display: none;
+  }
+  
+  .hamburger {
+    display: flex;
+  }
+  
+  .adminMain {
+    padding: 16px 12px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobileMenu {
+    display: none !important;
+  }
+  .mobileOverlay {
+    display: none !important;
   }
 }
